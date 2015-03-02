@@ -7,9 +7,9 @@
 ########################################################################
 
 
-'''
+"""
 Visualize the game of Threes in the command line with curses
-'''
+"""
 
 
 ###########
@@ -32,13 +32,13 @@ PADDING = 1
 # Important Values #
 ####################
 
-'''
+"""
 --------
 |      |
 | 6144 |
 |      |
 --------
-'''
+"""
 
 CELL_WIDTH = len(str(GOAL)) + 2 * PADDING + 2
 CELL_HEIGHT = 1 + 2 * PADDING + 2
@@ -65,20 +65,20 @@ class SmallScreenError:
 ####################
 
 
-def _wipeText(screen):
+def _wipe_text(screen):
 
-    screen.addstr( 2, 1, "|                           |")
-    screen.addstr( 3, 1, "|                           |")
-    screen.addstr( 4, 1, "|                           |")
-
-
-def _tellUser(screen, s):
-
-    _wipeText(screen)
-    screen.addstr( 3, 2, string.center(str(s), 27, ' '))
+    screen.addstr(2, 1, "|                           |")
+    screen.addstr(3, 1, "|                           |")
+    screen.addstr(4, 1, "|                           |")
 
 
-def _drawBoard(screen, board):
+def _tell_user(screen, s):
+
+    _wipe_text(screen)
+    screen.addstr(3, 2, string.center(str(s), 27, ' '))
+
+
+def _draw_board(screen, board):
 
     first_y = 7
     first_x = 2
@@ -96,6 +96,7 @@ def _drawBoard(screen, board):
 
         offset_x = 0
         offset_y += 4
+
 
 #################
 # Main Function #
@@ -158,8 +159,8 @@ def main(screen):
     # Game Loop
     while not game.gameOver():
 
-        _drawBoard(screen, game.board)  # Draw the board
-        _tellUser(screen, "Your next tile is: " + str(game.nextTile))
+        _draw_board(screen, game.board)  # Draw the board
+        _tell_user(screen, "Your next tile is: " + str(game.nextTile))
 
         while 1:
 
@@ -182,9 +183,9 @@ def main(screen):
                 break
 
     # Game Over
-    _tellUser(screen, "Game Over!")
-    _drawBoard(screen, game.board)
+    _tell_user(screen, "Game Over!")
+    _draw_board(screen, game.board)
     wait = screen.getch()
 
-    _tellUser(screen, "Your highest tile was: " + str(game.highestTile))
+    _tell_user(screen, "Your highest tile was: " + str(game.highestTile))
     wait = screen.getch()

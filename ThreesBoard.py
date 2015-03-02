@@ -7,9 +7,9 @@
 ########################################################################
 
 
-'''This is the Threes Board class.
+"""This is the Threes Board class.
 The board creation, game logic and record keeping are all in this file.
-For testing AI strategy with Threes, you probably only need this.'''
+For testing AI strategy with Threes, you probably only need this."""
 
 
 ###########
@@ -22,17 +22,18 @@ from math import ceil
 from TileDeck import TileDeck
 from copy import deepcopy
 
+
 ###########################################
 # Helper functions for creating the board #
 ###########################################
 
 
-def _createBoard(size):
-    '''Generating the empty starting game board
+def _create_board(size):
+    """Generating the empty starting game board
 
     This board can be of any (nxn) size.
     0 = a space with no tile
-    '''
+    """
 
     board = []
 
@@ -42,16 +43,17 @@ def _createBoard(size):
         for y in range(size):
             row.append(0)
         board.append(row)
+
     return board
 
 
-def _populateBoard(board, deck, nTiles):
-    '''Put the starting tiles on the board
+def _populate_board(board, deck, nTiles):
+    """Put the starting tiles on the board
 
     board should be list of list filled with 0's a la above function
     a deck, since Threes does not use a completely random tiles
     nTiles specify how many tiles you want
-    '''
+    """
 
     size = len(board)
 
@@ -61,7 +63,7 @@ def _populateBoard(board, deck, nTiles):
         raise TooManyTilesError
 
     for i in range(nTiles):
-        tile = deck.getNextTile()
+        tile = deck.get_next_tile()
 
         # Place tiles randomly on the board
         while True:
@@ -75,13 +77,14 @@ def _populateBoard(board, deck, nTiles):
 
     return board, deck
 
+
 ####################################
 # Helper function for board swipes #
 ####################################
 
 
 def _reverse(board):
-    '''Reverse the board right and left'''
+    """Reverse the board right and left"""
 
     for row in board:
         row.reverse()
@@ -90,7 +93,7 @@ def _reverse(board):
 
 
 def _row2col(board):
-    '''Reflect across the diagonal'''
+    """Reflect across the diagonal"""
 
     new_board = board[:]  # make a new copy of the grid
 
@@ -103,11 +106,11 @@ def _row2col(board):
     return new_board
 
 
-def _shiftLeft(row):
-    '''Performs what happen at row level when you swipe left in Threes
+def _shift_left(row):
+    """Performs what happen at row level when you swipe left in Threes
 
     Adding next tile does not happen at this level.
-    '''
+    """
 
     for i in range(1, len(row)):
 
@@ -128,17 +131,17 @@ def _shiftLeft(row):
     return row
 
 
-def _swipeLeft(board, tile=0):
-    '''Perform what happens at board level when you swipe left
+def _swipe_left(board, tile=0):
+    """Perform what happens at board level when you swipe left
 
     Adds the next tile
     Add no tile by default
-    '''
+    """
 
     copy_board = deepcopy(board)
 
     for row in copy_board:
-        row = _shiftLeft(row)
+        row = _shift_left(row)
 
     if copy_board == board:
         return board
@@ -155,37 +158,31 @@ def _swipeLeft(board, tile=0):
         return copy_board
 
 
-def _swipeRight(board, tile):
-    '''Perform what happens at board level when you swipe right
+def _swipe_right(board, tile):
+    """Perform what happens at board level when you swipe right
 
-    Based on _swipeLeft
-    '''
+    Based on _swipe_left
+    """
 
-    new_board = _reverse(_swipeLeft(_reverse(board), tile))
-
-    return new_board
+    return _reverse(_swipe_left(_reverse(board), tile))
 
 
-def _swipeUp(board, tile):
-    '''Perform what happens at board level when you swipe up
+def _swipe_up(board, tile):
+    """Perform what happens at board level when you swipe up
 
-    Based on _swipeLeft
-    '''
+    Based on _swipe_left
+    """
 
-    new_board = _row2col(_swipeLeft(_row2col(board), tile))
-
-    return new_board
+    return _row2col(_swipe_left(_row2col(board), tile))
 
 
-def _swipeDown(board, tile):
-    '''Perform what happens at board level when you swipe down
+def _swipe_down(board, tile):
+    """Perform what happens at board level when you swipe down
 
-    Based on _swipeLeft
-    '''
+    Based on _swipe_left
+    """
 
-    new_board = _row2col(_swipeRight(_row2col(board), tile))
-
-    return new_board
+    return _row2col(_swipe_right(_row2col(board), tile))
 
 
 ########################
@@ -193,11 +190,11 @@ def _swipeDown(board, tile):
 ########################
 
 
-def _getHighest(board):
-    '''Return highest tile on the board, the board is a list of list
+def _get_highest(board):
+    """Return highest tile on the board, the board is a list of list
 
     Since the board unordered, you have to go through every element.
-    '''
+    """
 
     highest_tile = 3  # highest tile at the beginning of a game
 
@@ -222,38 +219,44 @@ class TooManyTilesError:
     pass
 
 
+class InValidMoveError:
+    pass
+
+
 ######################
 # Threes Board Class #
 ######################
 
 
 class ThreesBoard(object):
-    '''The board, tiles and state of the game in Threes'''
+    """The board, tiles and state of the game in Threes"""
 
-    def __init__(self,
-                 size=4,  # standard Threes board size
-                 nTiles=9,  # standard Threes number of starting tiles
-                 board=[],  # empty or previous board
-                 deck=TileDeck(),  # new tile deck, or previous deck
-                 history=[],  # empty, or previous history
-                 nextTile=0):  # no tile, or previous tile
-        '''Creating the Threes board
+    def __init__(
+            self,
+            size=4,  # standard Threes board size
+            nTiles=9,  # standard Threes number of starting tiles
+            board=[],  # empty or previous board
+            deck=TileDeck(),  # new tile deck, or previous deck
+            history=[],  # empty, or previous history
+            nextTile=0):  # no tile, or previous tile
+
+        """Creating the Threes board
 
         If passing in an old board position, that game will be recreated
         The tile deck will can also be recreated
-        '''
+        """
 
         if not board:
             # Starting a new game; ignore previous history ... etc
-            self.board = _createBoard(size)
+            self.board = _create_board(size)
             self.deck = TileDeck([], 3)
 
             # Populating a new board with start up tiles
-            self.board, self.deck = _populateBoard(self.board,
+            self.board, self.deck = _populate_board(self.board,
                                                    self.deck,
                                                    nTiles)
 
-            self.nextTile = self.deck.getNextTile()
+            self.nextTile = self.deck.get_next_tile()
 
             # Set up empty history, then set initial condition
             self.history = []
@@ -263,38 +266,38 @@ class ThreesBoard(object):
             self.highestTile = 3
 
         else:
-            '''To consider: store all information in history
+            """To consider: store all information in history
                             eliminate the need for old boards, decks ...
                             initialize a previous game in form of
                             board = history[1]
                             nextTile = history[2]
                             ... etc
                             For next major version?
-            '''
+            """
 
             # Passing in the old game; size, ntiles are all ignored
             self.board = board
             self.deck = TileDeck(deck.deck)
             self.history = history
-            self.highestTile = _getHighest(self.board)
+            self.highestTile = _get_highest(self.board)
 
             # If old game information was incomplete
             if nextTile == 0:
-                self.nextTile = self.deck.getNextTile(0)
+                self.nextTile = self.deck.get_next_tile(0)
 
             else:
                 self.nextTile = nextTile
 
     def swipe(self, move):
-        '''Same function for different swipes
+        """Same function for different swipes
 
         This will make recording keeping easier
-        '''
+        """
 
-        direction = {'left' : _swipeLeft,
-                     'right': _swipeRight,
-                     'up'   : _swipeUp,
-                     'down' : _swipeDown}
+        direction = {'left': _swipe_left,
+                     'right': _swipe_right,
+                     'up': _swipe_up,
+                     'down': _swipe_down}
 
         copy_board = deepcopy(self.board)
 
@@ -302,7 +305,7 @@ class ThreesBoard(object):
             copy_board = direction[move](copy_board, self.nextTile)
 
         except KeyError:
-            return "Not a valid move."
+            raise InValidMoveError
 
         if self.board == copy_board:
             # raise NoMovementError
@@ -310,8 +313,8 @@ class ThreesBoard(object):
 
         else:
             self.board = copy_board
-            self.highestTile = _getHighest(self.board)
-            self.nextTile = self.deck.getNextTile(self.highestTile / 8)
+            self.highestTile = _get_highest(self.board)
+            self.nextTile = self.deck.get_next_tile(self.highestTile / 8)
 
             # Histoyr formate is: move, resulting board, next tile
             self.history.append((move, self.board, self.nextTile))
@@ -319,19 +322,18 @@ class ThreesBoard(object):
     def gameOver(self):
         new_board = deepcopy(self.board)
 
-        if _swipeLeft (new_board, 0) == self.board and \
-           _swipeRight(new_board, 0) == self.board and \
-           _swipeUp   (new_board, 0) == self.board and \
-           _swipeDown (new_board, 0) == self.board:
-
+        if (_swipe_left(new_board, 0) == self.board and
+                _swipe_right(new_board, 0) == self.board and
+                _swipe_up(new_board, 0) == self.board and
+                _swipe_down(new_board, 0) == self.board):
             return True
 
         return False
 
     def __eq__(self, other):
-        return self.board == other.board and \
-               self.deck == other.deck and \
-               self.nextTile == other.nextTile
+        return (self.board == other.board and
+                self.deck == other.deck and
+                self.nextTile == other.nextTile)
 
 if __name__ == "__main__":
 
