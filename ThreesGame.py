@@ -80,6 +80,15 @@ def _tell_user(screen, s):
 
 def _draw_board(screen, board):
 
+    # Color for 1 tiles
+    curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLUE)
+
+    # Color for 2 tiles
+    curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_RED)
+
+    # Color for all other tiles
+    curses.init_pair(3, curses.COLOR_BLACK, curses.COLOR_WHITE)
+
     first_y = 7
     first_x = 2
     offset_y = 0
@@ -87,11 +96,35 @@ def _draw_board(screen, board):
 
     for row in board:
         for cell in row:
+
             if cell == 0:
                 cell = ' '
-            screen.addstr(first_y + offset_y,
-                          first_x + offset_x,
-                          string.center(str(cell), 6, ' '))
+                screen.addstr(first_y + offset_y,
+                              first_x + offset_x,
+                              string.center(str(cell), 6, ' '),
+                              curses.color_pair(0))
+
+            elif cell == 1:
+
+                screen.addstr(first_y + offset_y,
+                              first_x + offset_x,
+                              string.center(str(cell), 6, ' '),
+                              curses.color_pair(1))
+
+            elif cell == 2:
+
+                screen.addstr(first_y + offset_y,
+                              first_x + offset_x,
+                              string.center(str(cell), 6, ' '),
+                              curses.color_pair(2))
+
+            else:
+
+                screen.addstr(first_y + offset_y,
+                              first_x + offset_x,
+                              string.center(str(cell), 6, ' '),
+                              curses.color_pair(3))
+
             offset_x += 7
 
         offset_x = 0
