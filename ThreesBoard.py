@@ -314,7 +314,7 @@ class ThreesBoard(object):
         else:
             self.board = copy_board
             self.highestTile = _get_highest(self.board)
-            self.nextTile = self.deck.get_next_tile(self.highestTile / 8)
+            self.nextTile = self.deck.get_next_tile(self.highestTile)
 
             # Histoyr formate is: move, resulting board, next tile
             self.history.append((move, self.board, self.nextTile))
@@ -409,4 +409,5 @@ if __name__ == "__main__":
     print "\n  The highest tile obtained is " + str(a.highestTile) + \
           ", after playing " + str(len(a.history)) + " moves."
 
-    # print a.history
+    for e in a.history:
+        print e

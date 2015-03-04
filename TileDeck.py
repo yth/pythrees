@@ -88,7 +88,7 @@ def _create_deck(highest_tile=3):
 class TileDeck(object):
     """Tile deck used in a game of Threes"""
 
-    def __init__(self, existing_deck=[], max_bonus=3):
+    def __init__(self, existing_deck=[], highest_tile=3):
         """Generating a tile deck to be used in a game of threes
 
         max_bonus: depending on the highest score in game
@@ -99,7 +99,7 @@ class TileDeck(object):
 
         if not existing_deck:
             # Create a new deck, if not using an existing one
-            self.deck = _create_deck(max_bonus)
+            self.deck = _create_deck(highest_tile)
 
         else:
             # Use an existing deck
@@ -116,7 +116,7 @@ class TileDeck(object):
 
         except IndexError:
             # Make a draw a new deck if the old one runs out
-            self.deck = _create_deck(highest_tile / 8)
+            self.deck = _create_deck(highest_tile)
             return self.deck.pop(0)
 
     def __str__(self):
