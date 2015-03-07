@@ -80,6 +80,31 @@ def _create_deck(highest_tile=3):
 
     return deck
 
+
+def _create_bonus_deck(highest_tile=3):
+    """Create a mini-bonus tile deck that can hold up to three values
+    
+    [ 1/8, 1/16, 1/32 of highest tile ]
+    Possible values: 6, 12, 24, 48, 96, 192, 384, 768
+    """
+    
+    if highest_tile < 48:
+        return None
+    
+    else:
+        bonus_deck = []
+       
+        if highest_tile / 8 >= 6:
+            bonus_deck.append(highest_tile / 8)
+            
+        if highest_tile / 16 >= 6:
+            bonus_deck.append(highest_tile / 16)
+        
+        if highest_tile / 32 >= 6:
+            bonus_deck.append(highest_tile / 32)        
+
+        return bonus_deck
+
 ##################
 # TileDeck Class #
 ##################
@@ -136,6 +161,36 @@ class TileDeck(object):
 
 # Basic Testing
 if __name__ == '__main__':
+
+    import unittest
+
+    _board_values = [
+        0, 1, 2, 3, 6, 12, 24, 48, 96, 192, 384, 768, 1536, 3072, 6144
+    ]
+
+    _bonus_values = [6, 12, 24, 48, 96, 192, 384, 768]
+
+    class TestBonusDeck(unittest.TestCase):
+
+        def setUp(self):
+            self.board_values = _board_values
+
+        def test_good_values(self):
+            good_tiles = filter(_create_bonus_deck, self.board_values)
+            #good_tiles = [x / 8 for x in good_tiles]
+            #print good_tiles
+            self.assertEqual(_bonus_values, [x / 8 for x in good_tiles])
+
+
+
+
+        
+
+    unittest.main()
+
+
+
+
 
     # deck = TileDeck()
     # print len(deck.deck)
