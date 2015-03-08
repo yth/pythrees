@@ -175,16 +175,16 @@ if __name__ == '__main__':
         def setUp(self):
             self.board_values = _board_values
 
-        def test_good_values(self):
+        def test_use_right_values(self):
             good_tiles = filter(_create_bonus_deck, self.board_values)
-            #good_tiles = [x / 8 for x in good_tiles]
-            #print good_tiles
             self.assertEqual(_bonus_values, [x / 8 for x in good_tiles])
 
-
-
-
-        
+        def test_bonus_deck_creation(self):
+            bonus_decks= map(_create_bonus_deck, self.board_values)
+            self.assertEqual([768, 384, 192], bonus_decks[14])
+            self.assertEqual([6], bonus_decks[7])
+            self.assertEqual([12, 6], bonus_decks[8])
+            self.assertEqual([24, 12, 6], bonus_decks[9])
 
     unittest.main()
 
