@@ -7,27 +7,16 @@
 ########################################################################
 
 
-"""
-This is the tile deck used by Threes to the best of my knowledge.
-"""
-
-
 ######################
 # Important Constant #
 ######################
 
 
-_BASE = [
+_BASE_DECK = [
     1, 1, 1, 1,
     2, 2, 2, 2,
     3, 3, 3, 3
 ]
-
-"""
-The next tile given to you is not completely random. It's drawn without
-replacement from a shuffled deck with above tiles. When you run out,
-another is created.
-"""
 
 ####################
 # Helper Functions #
@@ -69,8 +58,8 @@ def _create_deck(highest_tile=3):
 
         deck = [bonus[randint(0, len(bonus) - 1)]]  # Bonus tile
 
-    sequence1 = _BASE[:]
-    sequence2 = _BASE[:]
+    sequence1 = _BASE_DECK[:]
+    sequence2 = _BASE_DECK[:]
 
     shuffle(sequence1)
     shuffle(sequence2)

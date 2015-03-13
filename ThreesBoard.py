@@ -7,44 +7,56 @@
 ########################################################################
 
 
-"""This is the Threes Board class.
-The board creation, game logic and record keeping are all in this file.
-For testing AI strategy with Threes, you probably only need this."""
-
-
 ###########
 # Imports #
 ###########
 
 
-from random import random, randint
+from random import random, randint, choice
 from math import ceil
 from TileDeck import TileDeck
 from copy import deepcopy
 
+#######################
+# Important Constants #
+#######################
+
+"""
+This is the tile deck used by Threes to the best of my knowledge.
+"""
+
+_BASE_DECK = [
+    1, 1, 1, 1,
+    2, 2, 2, 2,
+    3, 3, 3, 3
+]
+
+######################################
+# Helper functions for drawing tiles #
+######################################
+
+def _draw_tile(deck):
+    """Draw tile from deck without replacement"""
+
+    try:
+        tile = choice(deck)
+    except IndexError:
+        deck = _BASE_DECK
+        tile = choice(deck)
+    
+    deck.remove(tile)
+    
+    return tile, deck
 
 ###########################################
 # Helper functions for creating the board #
 ###########################################
 
 
-def _create_board(size):
-    """Generating the empty starting game board
+def _create_board(n):
+    """Generating the empty n x n game board with 0 for place holder"""
 
-    This board can be of any (nxn) size.
-    0 = a space with no tile
-    """
-
-    board = []
-
-    for x in range(size):
-        row = []
-
-        for y in range(size):
-            row.append(0)
-        board.append(row)
-
-    return board
+    return [[0] * n for x in xrange(n)]
 
 
 def _populate_board(board, deck, nTiles):
@@ -222,6 +234,8 @@ class TooManyTilesError:
 class InValidMoveError:
     pass
 
+class EmptyDeckError:
+    pass
 
 ######################
 # Threes Board Class #
@@ -336,6 +350,23 @@ class ThreesBoard(object):
                 self.nextTile == other.nextTile)
 
 if __name__ == "__main__":
+    '''
+    import unittest
+    
+    class TestDrawTile(unittest.TestCase):
+
+        def setUp(self):
+            self.deck = _BASE_DECK
+            self.tile = 0
+
+        def test_draw_tile(self):
+            self.tile, self.deck = _draw_tile(self.deck)
+            self.assertEqual(len(self.deck), 11)
+            self.assertNotEqual(0, self.tile)
+            self.assertIn(self.tile, [1, 2, 3])
+
+    unittest.main()
+    '''
 
     # Testing on generating correct instances of games
 
