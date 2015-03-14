@@ -21,10 +21,6 @@ from copy import deepcopy
 # Important Constants #
 #######################
 
-"""
-This is the tile deck used by Threes to the best of my knowledge.
-"""
-
 _BASE_DECK = [
     1, 1, 1, 1,
     2, 2, 2, 2,
@@ -59,22 +55,17 @@ def _create_board(n):
     return [[0] * n for x in xrange(n)]
 
 
-def _populate_board(board, deck, nTiles):
-    """Put the starting tiles on the board
-
-    board should be list of list filled with 0's a la above function
-    a deck, since Threes does not use a completely random tiles
-    nTiles specify how many tiles you want
-    """
+def _populate_board(board, deck, num_of_tiles):
+    """Put initial tiles on the board"""
 
     size = len(board)
 
     # You can't have more tiles than spaces on the board
-    if nTiles > size**2:
+    if num_of_tiles > size**2:
         # nTiles = size**2 #Silently resolve error
         raise TooManyTilesError
 
-    for i in range(nTiles):
+    for i in range(num_of_tiles):
         tile = deck.get_next_tile()
 
         # Place tiles randomly on the board
@@ -440,5 +431,5 @@ if __name__ == "__main__":
     print "\n  The highest tile obtained is " + str(a.highestTile) + \
           ", after playing " + str(len(a.history)) + " moves."
 
-    for e in a.history:
-        print e
+    # for e in a.history:
+    #     print e

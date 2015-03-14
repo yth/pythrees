@@ -130,6 +130,7 @@ def _draw_board(screen, board):
         offset_x = 0
         offset_y += 4
 
+    screen.refresh()
 
 #################
 # Main Function #
