@@ -3,6 +3,7 @@
 ###########
 
 import unittest
+from random import choice
 from ThreesEngine import ThreesEngine
 
 #######################
@@ -44,13 +45,13 @@ class ThreesEngineTest(unittest.TestCase):
         test_game = ThreesEngine()
 
         while True:
-   
+
             while not test_game.game_over():
                 test_game.swipe(choice(all_moves))
-            
+
             if test_game.highest_tile == 96:
                 break
-            
+
             else:
                 test_game = ThreesEngine()
 
@@ -61,33 +62,34 @@ class ThreesEngineTest(unittest.TestCase):
 
     def test_start_game(self):
         assert self.history[0][0] == 'start'
-        
+
     def test_end_game(self):
         assert self.history[-1][0] == 'end'
-    
+
     def test_board_valid_size(self):
         size = len(self.board)
         for row in self.board:
             assertEqual(len(row), size)
-            
+
     def test_board_valid_tiles(self):
         all_tiles = [tile for sublist in self.board for tile in sublist]
         tiles = set(all_tiles)
         assert tiles.issubset(ALL_BOARD_CELL_VALUES)
-        
+
     def test_deck_valid_tiles(self):
         tiles = set(self.deck)
         assert tiles.issubset(ALL_DECK_TILE_VALUES)
-        
+
     def test_tiles_used(self):
         bonus_deck_used = []
         for turn in self.history:
             bonus_deck_used.append(turn[3])
         bonus_decks = set(bonus_deck_used)
         assert bonus_deck.issubset(ALL_BONUS_DECK_VALUES)
-        
-    def test_board_history
+
+    def test_board_history():
+        pass
 
 if __name__ == "__main__":
-        
+
     unittest.main()
