@@ -99,30 +99,73 @@ def _draw_board(screen, board):
 
             if cell == 0:
                 cell = ' '
+
+                screen.addstr(first_y + offset_y - 1,
+                              first_x + offset_x,
+                              string.center(str(''), 6, ' '),
+                              curses.color_pair(0))
+
+
                 screen.addstr(first_y + offset_y,
                               first_x + offset_x,
                               string.center(str(cell), 6, ' '),
                               curses.color_pair(0))
 
+                screen.addstr(first_y + offset_y + 1,
+                              first_x + offset_x,
+                              string.center(str(''), 6, ' '),
+                              curses.color_pair(0))
+
+
             elif cell == 1:
+
+                screen.addstr(first_y + offset_y - 1,
+                              first_x + offset_x,
+                              string.center(str(''), 6, ' '),
+                              curses.color_pair(1))
 
                 screen.addstr(first_y + offset_y,
                               first_x + offset_x,
                               string.center(str(cell), 6, ' '),
                               curses.color_pair(1))
 
+                screen.addstr(first_y + offset_y + 1,
+                              first_x + offset_x,
+                              string.center(str(''), 6, ' '),
+                              curses.color_pair(1))
+
             elif cell == 2:
+
+                screen.addstr(first_y + offset_y - 1,
+                              first_x + offset_x,
+                              string.center(str(''), 6, ' '),
+                              curses.color_pair(2))
 
                 screen.addstr(first_y + offset_y,
                               first_x + offset_x,
                               string.center(str(cell), 6, ' '),
                               curses.color_pair(2))
 
+                screen.addstr(first_y + offset_y + 1,
+                              first_x + offset_x,
+                              string.center(str(''), 6, ' '),
+                              curses.color_pair(2))
+
             else:
+
+                screen.addstr(first_y + offset_y - 1,
+                              first_x + offset_x,
+                              string.center(str(''), 6, ' '),
+                              curses.color_pair(3))
 
                 screen.addstr(first_y + offset_y,
                               first_x + offset_x,
                               string.center(str(cell), 6, ' '),
+                              curses.color_pair(3))
+
+                screen.addstr(first_y + offset_y + 1,
+                              first_x + offset_x,
+                              string.center(str(''), 6, ' '),
                               curses.color_pair(3))
 
             offset_x += 7
