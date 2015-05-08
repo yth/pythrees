@@ -15,6 +15,8 @@ from copy import deepcopy
 
 ######################################
 
+# This is the deck that Threes draw tiles from without replacements.
+# When there are no more tile in the deck, a new deck is created.
 
 _BASE_DECK = [
     1, 1, 1, 1,
@@ -42,6 +44,8 @@ def _get_highest_tile(board):
 
 
 def _create_bonus_deck(base=0):
+    """Create bonus deck, min tile: 6, max tile: highest tile / 8 """
+
     return filter(lambda x: x >= 6, [base / 32, base / 16, base / 8])
 
 
@@ -65,8 +69,7 @@ def _populate_board(board, deck, num_of_tiles):
         # Then place one by one
         while True:
             pos = choice(range(n ** 2))
-            x = pos / n
-            y = pos % n
+            x, y = divmod(pos, n)
 
             if board[x][y] == 0:
                 board[x][y] = choice(tile)
