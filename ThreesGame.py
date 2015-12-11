@@ -72,10 +72,10 @@ def _wipe_text(screen):
     screen.addstr(4, 1, "|                           |")
 
 
-def _tell_user(screen, s):
+def _tell_user(screen, s, color_pair=0):
 
     _wipe_text(screen)
-    screen.addstr(3, 2, string.center(str(s), 27, ' '))
+    screen.addstr(3, 2, string.center(str(s), 27, ' '), curses.color_pair(color_pair))
 
 
 def _draw_board(screen, board):
@@ -236,7 +236,14 @@ def main(screen):
     while not game.gameOver():
 
         _draw_board(screen, game.board)  # Draw the board
-        _tell_user(screen, "Your next tile is: " + str(game.nextTile))
+        next_tile = game.nextTile
+        if next_tile == 1:
+            color_pair = 1
+        elif next_tile == 2:
+            color_pair = 2
+        else:
+            color_pair = 3
+        _tell_user(screen, str(game.nextTile), color_pair)
 
         while 1:
 
