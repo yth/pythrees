@@ -179,7 +179,6 @@ def _draw_board(screen, board):
 #################
 
 
-@curses.wrapper
 def main(screen):
 
     # Set up environment:
@@ -229,6 +228,7 @@ def main(screen):
     # Initialize Game
     screen.keypad(1)  # Enable special keys
     good_keys = [KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN]  # Only get these
+    q_keys = [ord('q'), ord('Q')]
 
     game = ThreesBoard()  # Make a new board
 
@@ -265,10 +265,28 @@ def main(screen):
 
                 break
 
-    # Game Over
-    _tell_user(screen, "Game Over!")
-    _draw_board(screen, game.board)
-    wait = screen.getch()
+            elif key in q_keys:
+
+                break
+
+        if key in q_keys:
+
+            break
+
+    else:
+
+        # Game Over
+        _tell_user(screen, "Game Over!")
+        _draw_board(screen, game.board)
+        wait = screen.getch()
 
     _tell_user(screen, "Your highest tile was: " + str(game.highestTile))
     wait = screen.getch()
+
+
+if __name__ == '__main__':
+
+    try:
+        curses.wrapper(main)
+    except KeyboardInterrupt:
+        pass
