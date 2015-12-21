@@ -12,6 +12,14 @@ This is the tile deck used by Threes to the best of my knowledge.
 """
 
 
+###########
+# Imports #
+###########
+
+
+from __future__ import print_function
+
+
 ######################
 # Important Constant #
 ######################
@@ -149,22 +157,22 @@ if __name__ == '__main__':
         deck4 = TileDeck([], 3)
         deck5 = TileDeck([], 192)  # right bonus
 
-        print deck0
-        print deck1
-        print deck2
-        print deck3
-        print deck4
-        print deck5
+        print(deck0)
+        print(deck1)
+        print(deck2)
+        print(deck3)
+        print(deck4)
+        print(deck5)
 
-        print repr(deck1)
-        print str(deck1)
+        print(repr(deck1))
+        print(str(deck1))
 
         deck5 = eval(repr(deck2))
         assert deck5 == deck2
 
         for i in range(len(deck2.deck)):
-            print deck2.get_next_tile(),
+            print(deck2.get_next_tile(), end=' ')
 
-        print deck2.get_next_tile()
+        print(deck2.get_next_tile())
 
     # simpleTest()

@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 ########################################################################
 # Threes! is a game by by Asher Vollmer, Greg Wohlwend, Jimmy Hinson,  #
 # and Hidden Variable. This is created so that AI/ML strategies for    #
@@ -18,7 +19,6 @@ Visualize the game of Threes in the command line with curses
 
 import curses
 from curses import KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN
-import string
 from ThreesBoard import ThreesBoard
 
 #######################
@@ -75,7 +75,7 @@ def _wipe_text(screen):
 def _tell_user(screen, s, color_pair=0):
 
     _wipe_text(screen)
-    screen.addstr(3, 2, string.center(str(s), 27, ' '), curses.color_pair(color_pair))
+    screen.addstr(3, 2, '{:^27s}'.format(str(s)), curses.color_pair(color_pair))
 
 
 def _draw_board(screen, board):
@@ -102,18 +102,18 @@ def _draw_board(screen, board):
 
                 screen.addstr(first_y + offset_y - 1,
                               first_x + offset_x,
-                              string.center(str(''), 6, ' '),
+                              '{:^6s}'.format(str('')),
                               curses.color_pair(0))
 
 
                 screen.addstr(first_y + offset_y,
                               first_x + offset_x,
-                              string.center(str(cell), 6, ' '),
+                              '{:^6s}'.format(str(cell)),
                               curses.color_pair(0))
 
                 screen.addstr(first_y + offset_y + 1,
                               first_x + offset_x,
-                              string.center(str(''), 6, ' '),
+                              '{:^6s}'.format(str('')),
                               curses.color_pair(0))
 
 
@@ -121,51 +121,51 @@ def _draw_board(screen, board):
 
                 screen.addstr(first_y + offset_y - 1,
                               first_x + offset_x,
-                              string.center(str(''), 6, ' '),
+                              '{:^6s}'.format(str('')),
                               curses.color_pair(1))
 
                 screen.addstr(first_y + offset_y,
                               first_x + offset_x,
-                              string.center(str(cell), 6, ' '),
+                              '{:^6s}'.format(str(cell)),
                               curses.color_pair(1))
 
                 screen.addstr(first_y + offset_y + 1,
                               first_x + offset_x,
-                              string.center(str(''), 6, ' '),
+                              '{:^6s}'.format(str('')),
                               curses.color_pair(1))
 
             elif cell == 2:
 
                 screen.addstr(first_y + offset_y - 1,
                               first_x + offset_x,
-                              string.center(str(''), 6, ' '),
+                              '{:^6s}'.format(str('')),
                               curses.color_pair(2))
 
                 screen.addstr(first_y + offset_y,
                               first_x + offset_x,
-                              string.center(str(cell), 6, ' '),
+                              '{:^6s}'.format(str(cell)),
                               curses.color_pair(2))
 
                 screen.addstr(first_y + offset_y + 1,
                               first_x + offset_x,
-                              string.center(str(''), 6, ' '),
+                              '{:^6s}'.format(str('')),
                               curses.color_pair(2))
 
             else:
 
                 screen.addstr(first_y + offset_y - 1,
                               first_x + offset_x,
-                              string.center(str(''), 6, ' '),
+                              '{:^6s}'.format(str('')),
                               curses.color_pair(3))
 
                 screen.addstr(first_y + offset_y,
                               first_x + offset_x,
-                              string.center(str(cell), 6, ' '),
+                              '{:^6s}'.format(str(cell)),
                               curses.color_pair(3))
 
                 screen.addstr(first_y + offset_y + 1,
                               first_x + offset_x,
-                              string.center(str(''), 6, ' '),
+                              '{:^6s}'.format(str('')),
                               curses.color_pair(3))
 
             offset_x += 7
@@ -192,11 +192,11 @@ def main(screen):
     if y + x < GAME_WIDTH + GAME_HEIGHT:
         raise SmallScreenError
 
-    center = (y / 2, x / 2)
+    center = (y // 2, x // 2)
 
     # Calculate information for creating the new game window
-    start_y = center[0] - GAME_HEIGHT / 2
-    start_x = center[1] - GAME_WIDTH / 2
+    start_y = center[0] - GAME_HEIGHT // 2
+    start_x = center[1] - GAME_WIDTH // 2
 
     # Creating game
     screen = curses.newwin(GAME_HEIGHT, GAME_WIDTH, start_y, start_x)
