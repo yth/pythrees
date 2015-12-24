@@ -17,6 +17,7 @@ For testing AI strategy with Threes, you probably only need this."""
 ###########
 
 
+from __future__ import print_function
 from random import random, randint
 from math import ceil
 from TileDeck import TileDeck
@@ -68,7 +69,7 @@ def _populate_board(board, deck, nTiles):
         # Place tiles randomly on the board
         while True:
             pos = int(ceil(size**2 * random())) - 1
-            x = pos / size
+            x = pos // size
             y = pos % size
 
             if board[x][y] == 0:
@@ -393,21 +394,21 @@ if __name__ == "__main__":
         # try: a.swipe(moves[nextMove])
 
         try:
-            move = choice(moves.keys())
+            move = choice(list(moves.keys()))
             a.swipe(moves[move])
 
         except NoMovementError:
             pass
 
-    print "\n  The next tile is :", a.nextTile, '\n'
+    print("\n  The next tile is :", a.nextTile, '\n')
     for row in a.board:
         for tile in row:
-            print string.center(str(tile), 6, ' '),
-        print ''
+            print(string.center(str(tile), 6, ' '), end=' ')
+        print('')
 
-    print "\n  This is the end board after using a random strategy."
-    print "\n  The highest tile obtained is " + str(a.highestTile) + \
-          ", after playing " + str(len(a.history)) + " moves."
+    print("\n  This is the end board after using a random strategy.")
+    print("\n  The highest tile obtained is " + str(a.highestTile) + \
+          ", after playing " + str(len(a.history)) + " moves.")
 
     for e in a.history:
-        print e
+        print(e)
