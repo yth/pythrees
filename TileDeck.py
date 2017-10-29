@@ -175,4 +175,4 @@ if __name__ == '__main__':
 
         print(deck2.get_next_tile())
 
-    # simpleTest()
+    simpleTest()
