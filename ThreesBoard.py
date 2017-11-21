@@ -7,11 +7,13 @@
 ########################################################################
 
 
+# I should make the note more detailed
 """This is the Threes Board class.
 The board creation, game logic and record keeping are all in this file.
 For testing AI strategy with Threes, you probably only need this."""
 
 
+# Too elaborate comments
 ###########
 # Imports #
 ###########
@@ -28,7 +30,8 @@ from copy import deepcopy
 # Helper functions for creating the board #
 ###########################################
 
-
+# I should create a default size of 4.
+# I should not create too much generality
 def _create_board(size):
     """Generating the empty starting game board
 
@@ -38,6 +41,8 @@ def _create_board(size):
 
     board = []
 
+# x and y are not used.
+# I could compress this into an one-liner with list comprehension
     for x in range(size):
         row = []
 
@@ -47,7 +52,7 @@ def _create_board(size):
 
     return board
 
-
+# Should add in the comments why the deck is returned as well.
 def _populate_board(board, deck, nTiles):
     """Put the starting tiles on the board
 
@@ -56,8 +61,12 @@ def _populate_board(board, deck, nTiles):
     nTiles specify how many tiles you want
     """
 
+# Move this below the test, so that in case test failure, I don't do any
+# work.
     size = len(board)
 
+# Need better English. It should have been:
+# You can't plan to put more tiles on the board than there are spaces...
     # You can't have more tiles than spaces on the board
     if nTiles > size**2:
         # nTiles = size**2 #Silently resolve error
@@ -66,6 +75,7 @@ def _populate_board(board, deck, nTiles):
     for i in range(nTiles):
         tile = deck.get_next_tile()
 
+# Need better comment?
         # Place tiles randomly on the board
         while True:
             pos = int(ceil(size**2 * random())) - 1
@@ -84,6 +94,7 @@ def _populate_board(board, deck, nTiles):
 ####################################
 
 
+# I should move _reverse and _row2col below _swipe_left
 def _reverse(board):
     """Reverse the board right and left"""
 
@@ -93,6 +104,7 @@ def _reverse(board):
     return board
 
 
+# I should add comment that it's reflecting across x=y diagonal.
 def _row2col(board):
     """Reflect across the diagonal"""
 
@@ -107,6 +119,8 @@ def _row2col(board):
     return new_board
 
 
+# I should put this first in this section, since this is the most
+# important function here.
 def _shift_left(row):
     """Performs what happen at row level when you swipe left in Threes
 
@@ -132,6 +146,7 @@ def _shift_left(row):
     return row
 
 
+# I should specify that no tile means adding a tile = 0
 def _swipe_left(board, tile=0):
     """Perform what happens at board level when you swipe left
 
@@ -147,6 +162,8 @@ def _swipe_left(board, tile=0):
     if copy_board == board:
         return board
 
+# I should add the comment that the next tile is added on one of the
+# rows that had tile movement in it.
     else:
         # Add next tile
         while True:
@@ -207,6 +224,8 @@ def _get_highest(board):
     return highest_tile
 
 
+# I should move expections up earlier, and explain what each is in a
+# comment.
 ##############
 # Exceptions #
 ##############
@@ -230,6 +249,7 @@ class InValidMoveError:
 
 
 class ThreesBoard(object):
+# Add 'contain' to the comments
     """The board, tiles and state of the game in Threes"""
 
     def __init__(
@@ -247,6 +267,7 @@ class ThreesBoard(object):
         The tile deck will can also be recreated
         """
 
+# Flipped logic. It would be better to use if board, and else.
         if not board:
             # Starting a new game; ignore previous history ... etc
             self.board = _create_board(size)
@@ -308,6 +329,8 @@ class ThreesBoard(object):
         except KeyError:
             raise InValidMoveError
 
+# Too many checks to see if a move was made.
+# I should just make the check here, and simply the _swipe_left function
         if self.board == copy_board:
             # raise NoMovementError
             pass
@@ -317,12 +340,15 @@ class ThreesBoard(object):
             self.highestTile = _get_highest(self.board)
             self.nextTile = self.deck.get_next_tile(self.highestTile)
 
+# Typo
+# I should have created a better archival system
             # Histoyr formate is: move, resulting board, next tile
             self.history.append((move, self.board, self.nextTile))
 
     def gameOver(self):
         new_board = deepcopy(self.board)
 
+# The default is already 0, I should not have to add 0 again.
         if (_swipe_left(new_board, 0) == self.board and
                 _swipe_right(new_board, 0) == self.board and
                 _swipe_up(new_board, 0) == self.board and
@@ -331,11 +357,14 @@ class ThreesBoard(object):
 
         return False
 
+# I should also add a history check, this only check current and future
+# conditions.
     def __eq__(self, other):
         return (self.board == other.board and
                 self.deck == other.deck and
                 self.nextTile == other.nextTile)
 
+#I should use standard testing library
 if __name__ == "__main__":
 
     # Testing on generating correct instances of games
@@ -403,6 +432,8 @@ if __name__ == "__main__":
     print("\n  The next tile is :", a.nextTile, '\n')
     for row in a.board:
         for tile in row:
+# I believe string.center is no longer valid in python3
+# I should change it so that it works well in both python2 and 3
             print(string.center(str(tile), 6, ' '), end=' ')
         print('')
 
@@ -410,5 +441,6 @@ if __name__ == "__main__":
     print("\n  The highest tile obtained is " + str(a.highestTile) + \
           ", after playing " + str(len(a.history)) + " moves.")
 
+# I should create a better way to tell the history of the game
     for e in a.history:
         print(e)

@@ -12,12 +12,17 @@ This is the tile deck used by Threes to the best of my knowledge.
 """
 
 
+# The header comments are too elaborate. They aren't low maintenance.
+# Other people would have to do a lot of work to duplicate them.
+# However, I might not need to change them often.
+
 ###########
 # Imports #
 ###########
 
 
-from __future__ import print_function
+from __future__ import print_function 
+# This is for testing, should just be under __main__
 
 
 ######################
@@ -57,10 +62,18 @@ def _create_deck(highest_tile=3):
     First deck of a game never have a bonus tile.
     """
 
+# Comments could be clearer, and use better English.
+
     from random import shuffle
     from random import randint
 
+# imports should be in the import section.
+# You don't want to import stuff each time the function is called.
+
     deck = []
+
+# Use a different function for bonus deck creation
+# Use a better logic and structure for bonus deck creation
     max_bonus = highest_tile / 8
 
     # Check if a bonus tile needs to be created
@@ -75,13 +88,22 @@ def _create_deck(highest_tile=3):
             if max_bonus / 4 > 3:
                 bonus.append(max_bonus / 4)
 
+# Here the specific tile is added to the deck.
+# However, the user should be presented by all the potential bonus tiles
+# before the swipe. The bonus tile is determined after the swipe.
         deck = [bonus[randint(0, len(bonus) - 1)]]  # Bonus tile
 
+	# Prevent too many of the same tile in a row too often
     sequence1 = _BASE[:]
     sequence2 = _BASE[:]
 
     shuffle(sequence1)
     shuffle(sequence2)
+
+# What if sequence1 and sequence2 both points to the same things?
+# Should I have used copy?
+# How should I find out?
+# I should insert some assert statements
 
     # original deck can be [] or contain a bonus tile
     deck += sequence1 + sequence2
@@ -104,7 +126,11 @@ class TileDeck(object):
                        if not empty - it means it's starting an previous
                                       game, and need the old deck again
         """
+# max_bonus is unused in the class.
+# It should be removed from the class.
 
+# Poor logic. I should used if existing_deck, and then else.
+# It achieve the same result, and is much clearer
         if not existing_deck:
             # Create a new deck, if not using an existing one
             self.deck = _create_deck(highest_tile)
@@ -113,7 +139,15 @@ class TileDeck(object):
             # Use an existing deck
             self.deck = existing_deck
 
+# Where is the function getting the highest_tile from?
+# I should create a structure for it to simply the logic
     def get_next_tile(self, highest_tile=3):
+# Not true FIFO order. It's getting the deck in order.
+# I could have improved the logic, since FIFO and LIFO does not matter.
+# I could have put the bonus tile either in front or behind
+# In fact, bonus tiles should be handled differently. 
+# It should be presented as possible tiles.
+# Collapse the uncertainly only after the swipe.
         """Get the next tile in FIFO order due to bonus tile placement
 
         highest_tile: on the game board, the max bonus is 1/8 of it
@@ -135,6 +169,8 @@ class TileDeck(object):
     def __repr__(self):
         """Tile Deck as a string"""
 
+# There are more automated methods to get the class name.
+# Why should the highest_tile in this case be 0?
         return 'TileDeck(' + str(self.deck) + ', 0)'
 
     def __eq__(self, other):
@@ -144,11 +180,14 @@ class TileDeck(object):
 
 # Basic Testing
 if __name__ == '__main__':
+# I should have used built in testing framework
 
     # deck = TileDeck()
     # print len(deck.deck)
     # print deck.deck
 
+# Using standard builtin testing framework would have allowed me to
+# provide additional comments for what each test was doing.
     def simpleTest():
         deck0 = TileDeck()
         deck1 = TileDeck([], 3)  # new deck
