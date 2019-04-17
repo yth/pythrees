@@ -1,5 +1,5 @@
-# I shoul add line between #! and the initial comment
 #!/usr/bin/env python
+
 ########################################################################
 # Threes! is a game by by Asher Vollmer, Greg Wohlwend, Jimmy Hinson,  #
 # and Hidden Variable. This is created so that AI/ML strategies for    #
@@ -9,9 +9,13 @@
 ########################################################################
 
 
-# I should add a line in the comment that says this is a functional test
-"""
-Visualize the game of Threes in the command line with curses
+
+""" Threes! on the command line
+
+Graphically see how Threes! work through curses on the command line.
+
+This is implemented as a functional test for ThreesBoard. It can also be
+used to see how an AI player is playing Threes!
 """
 
 
@@ -19,24 +23,36 @@ Visualize the game of Threes in the command line with curses
 # Imports #
 ###########
 
+
 import curses
 from curses import KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN
 from ThreesBoard import ThreesBoard
+
+
+##############
+# Exceptions #
+##############
+
+
+class SmallScreenError:
+    pass
+
 
 #######################
 # Important Constants #
 #######################
 
+
 GOAL = 6144  # Expected highest possible score in Threes
 PADDING = 1
 
-# I should combine important constants and important values
-# I should also add a comment about the cell that I am trying to saw
+
 ####################
 # Important Values #
 ####################
 
-"""
+
+""" How a cell should appear on the game board
 --------
 |      |
 | 6144 |
@@ -55,14 +71,6 @@ TEXT_BOX_HEIGHT = 1 + 2 * PADDING + 2
 GAME_HEIGHT = BOARD_HEIGHT + 2 + TEXT_BOX_HEIGHT - 1
 GAME_WIDTH = BOARD_WIDTH + 2
 
-##############
-# Exceptions #
-##############
-
-
-class SmallScreenError:
-    pass
-
 
 ####################
 # Helper Functions #
@@ -75,9 +83,7 @@ def _wipe_text(screen):
     screen.addstr(3, 1, "|                           |")
     screen.addstr(4, 1, "|                           |")
 
-# Maybe I should move up color_pair?
-# Also, I should adopt a standard function formating
-# Read pep8 again
+
 def _tell_user(screen, s, color_pair=0):
 
     _wipe_text(screen)
@@ -85,7 +91,8 @@ def _tell_user(screen, s, color_pair=0):
 
 
 def _draw_board(screen, board):
-# Color pairings should definitely be defined elsewhere
+	# Consider define color pairings elsewhere
+
     # Color for 1 tiles
     curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLUE)
 
@@ -95,19 +102,12 @@ def _draw_board(screen, board):
     # Color for all other tiles
     curses.init_pair(3, curses.COLOR_BLACK, curses.COLOR_WHITE)
 
-# I should add what this offset means
-# And why this is simpler to use offset_x and offset_y instead of not
-# From here it looks very silly
     first_y = 7
     first_x = 2
     offset_y = 0
     offset_x = 0
 
-# I should also just use cell to choose color_pair.
-# It seems like I could just recombine the three branches into something
-# better.
-# I could also just made it a function to draw in the cell, like I did
-# with the messages.
+    # Consider capture draw cell in a function during refactoring
     for row in board:
         for cell in row:
 
@@ -193,9 +193,10 @@ def _draw_board(screen, board):
 #################
 
 
+def main(screen):
+
 # I could have organized this function so much better
 # I could also have structured my code so much better
-def main(screen):
 
     # Set up environment:
 
@@ -204,14 +205,11 @@ def main(screen):
     # Find out more about environment
     y, x = screen.getmaxyx()
 
-# This check was too lazy. There are a lot of screens that could be too
-# little, and the gain would still have tried to run.
-    if y + x < GAME_WIDTH + GAME_HEIGHT:
+    if y < GAME_HEIGHT or x < GAME_WIDTH:
         raise SmallScreenError
 
-    center = (y // 2, x // 2)
-
     # Calculate information for creating the new game window
+    center = (y // 2, x // 2)
     start_y = center[0] - GAME_HEIGHT // 2
     start_x = center[1] - GAME_WIDTH // 2
 
@@ -220,9 +218,8 @@ def main(screen):
     screen.border()
 
     # Static Game Board
-# Add comment here about using this screen to debug
-# I could also used fancier graphics than + for corners, at least the
-# for the +'s on the outermost sides and corners.
+    # This screen can also be used for debugging purposes
+    # All the numbers will be covered over by game information
     screen.addstr( 1, 1, "+---------------------------+")
     screen.addstr( 2, 1, "|                           |")
     screen.addstr( 3, 1, "|        1         2        |")
@@ -246,12 +243,9 @@ def main(screen):
     screen.addstr(21, 1, "+------+------+------+------+")
 
     # Initialize Game
-# Better comments here about initializing the keyboards
-# I should tell the user that she can quit using the 'q' or 'Q' key
     screen.keypad(1)  # Enable special keys
-    good_keys = [KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN]  # Only get these
-    q_keys = [ord('q'), ord('Q')]
-
+    good_keys = [KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN] # Only get these
+    q_keys = [ord('q'), ord('Q')] # quit using 'q' or 'Q'
     game = ThreesBoard()  # Make a new board
 
     # Game Loop
@@ -260,17 +254,27 @@ def main(screen):
         _draw_board(screen, game.board)  # Draw the board
         next_tile = game.nextTile
 
-# Technically it seems like I didn't need to, but I should declare
-# color_pair outside the if statements?
-# I might be using color_pair from somewhere else that I am not aware of
-# Check python manual/experiment to find out
         if next_tile == 1:
             color_pair = 1
         elif next_tile == 2:
             color_pair = 2
         else:
             color_pair = 3
-        _tell_user(screen, str(game.nextTile), color_pair)
+
+        if next_tile >= 6:
+            bonuses = []
+            high = game.highestTile
+            while highest_tile >= 48 and len(bonus_deck) < 4:
+                bonus.append(high/8)
+                high /= 2
+            s = str(bonuses[0])
+            for tile in bonuses[1:]:
+                s+= "  "
+                s+= str(tile)
+            _tell_user(screen, s, color_pair)
+
+        else:
+            _tell_user(screen, str(next_tile), color_pair)
 
         while 1:
 
@@ -292,16 +296,14 @@ def main(screen):
 
                 break
 
+            # Quit
             elif key in q_keys:
-# Add comment about this breaks out of the get key loop
                 break
 
-# Add comment about this breaks out of the game loop
+        # Break out of the game loop
         if key in q_keys:
-
             break
 
-# This is a while else structures. I should read more on this
     else:
 
         # Game Over
@@ -311,7 +313,8 @@ def main(screen):
 
     _tell_user(screen, "Your highest tile was: " + str(game.highestTile))
     wait = screen.getch()
-# I should add an option here to restart the game
+    # Consider adding an option to restart the game here
+
 
 if __name__ == '__main__':
 
