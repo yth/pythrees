@@ -264,8 +264,8 @@ def main(screen):
         if next_tile >= 6:
             bonuses = []
             high = game.highestTile
-            while highest_tile >= 48 and len(bonus_deck) < 4:
-                bonus.append(high/8)
+            while high >= 48 and len(bonuses) < 4:
+                bonuses.append(high/8)
                 high /= 2
             s = str(bonuses[0])
             for tile in bonuses[1:]:

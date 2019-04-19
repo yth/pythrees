@@ -266,7 +266,7 @@ class ThreesBoard(object):
 
             # Passing in the old game; size, ntiles are all ignored
             self.board = board
-            self.deck = TileDeck(deck.deck)
+            self.deck = deck
             self.history = history
             self.highestTile = _get_highest(self.board)
 

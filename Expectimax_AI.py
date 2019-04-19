@@ -1,7 +1,9 @@
 from __future__ import print_function
 from ThreesBoard import ThreesBoard
 from ThreesBoard import _swipe_left, _swipe_right, _swipe_up, _swipe_down
+from TileDeck import TileDeck
 from random import randint, choice
+from copy import copy
 
 MOVES = {
     "left":0,
@@ -30,8 +32,8 @@ while not a.gameOver():
     next_move_trials = [1.0, 1.0, 1.0, 1.0]
     test_move = None
     possible_moves = None
-    for i in range(300):
-        b = ThreesBoard(board=a.board, deck=a.deck, nextTile=a.nextTile, history=[])
+    for i in range(1000):
+        b = ThreesBoard(board=a.board, deck=TileDeck(copy(a.deck.deck)), nextTile=a.nextTile, history=[])
 
         possible_moves = b.get_valid_moves()
         test_move = choice(possible_moves)
@@ -39,8 +41,11 @@ while not a.gameOver():
         while not b.gameOver():
             b.swipe(MOVES[randint(0, 3)])
         # next_move_scores[MOVES[test_move]] += sum([sum(row) for row in b.board])
-        next_move_scores[MOVES[test_move]] += len(b.history)
+        next_move_scores[MOVES[test_move]] += len(b.history) * 100
+        # next_move_scores[MOVES[test_move]] += b.highestTile
+        # next_move_scores[MOVES[test_move]] -= sum([1 if i == 1 or i == 2 else 0 for row in b.board for i in row]) * 100
         next_move_trials[MOVES[test_move]] += 1
+        
 
     values = []
     for i in range(4):
@@ -55,7 +60,7 @@ while not a.gameOver():
             if values[i] == best:
                 indexes.append(i)
         move = MOVES[choice(indexes)]
-        print(move, best)
+        print(move, best, a.nextTile)
         a.swipe(move)
  
     draw_board(a)
