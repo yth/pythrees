@@ -20,10 +20,12 @@ For testing AI strategy with Threes, you probably only need this.
 
 
 from __future__ import print_function
+
+
 import random
 import copy
 
-from math import ceil
+
 from TileDeck import TileDeck
 
 
@@ -106,23 +108,25 @@ def _shift_left(row):
     are based on this one.
     """
 
-    for i in range(1, len(row)):
+    row_copy = copy.copy(row)
+
+    for i in range(1, len(row_copy)):
 
         # Move tile left if the left space is empty
-        if row[i-1] == 0:
-            row[i-1], row[i] = row[i], row[i-1]
+        if row_copy[i-1] == 0:
+            row_copy[i-1], row_copy[i] = row_copy[i], row_copy[i-1]
 
         # Merge left, if the two tiles are the same, and divisible by 3
-        elif row[i-1] == row[i] and row[i] % 3 == 0:
-            row[i-1] *= 2
-            row[i] = 0
+        elif row_copy[i-1] == row_copy[i] and row_copy[i] % 3 == 0:
+            row_copy[i-1] *= 2
+            row_copy[i] = 0
 
         # Merge left, if two tiles adds up to 3
-        elif row[i-1] + row[i] == 3:
-            row[i-1] = 3
-            row[i] = 0
+        elif row_copy[i-1] + row_copy[i] == 3:
+            row_copy[i-1] = 3
+            row_copy[i] = 0
 
-    return row
+    return row_copy, 0 if row == row_copy else 1
 
 
 # I should specify that no tile means adding a tile = 0
@@ -133,25 +137,30 @@ def _swipe_left(board, tile=0):
     Add no tile by default
     """
 
-    copy_board = copy.deepcopy(board)
+    size = len(board)
+    new_board = []
+    changes = []
 
-    for row in copy_board:
-        row = _shift_left(row)
+    for row in board:
+        new_row, change = _shift_left(row)
+        new_board.append(new_row)
+        changes.append(change)
 
     # If the board did not change, then it's not a legal move
-    if copy_board == board:
+    if sum(changes) == 0:
         return board
 
     else:
         # Add next tile on a row that changed
         while True:
-            pick = random.randint(0, len(board) - 1)
+            pick = random.randint(0, size - 1)
 
-            if board[pick] != copy_board[pick]:
-                copy_board[pick][-1] = tile
-                break
+            if changes[pick] == 0:
+                continue
 
-        return copy_board
+            else:
+                new_board[pick][-1] = tile
+                return new_board
 
 
 def _swipe_right(board, tile=0):
