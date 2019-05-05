@@ -225,14 +225,7 @@ def _get_highest(board):
     Since the board unordered, you have to go through every element.
     """
 
-    highest_tile = 3  # highest tile at the beginning of a game
-
-    for row in board:
-        for e in row:
-            if e > highest_tile:
-                highest_tile = e
-
-    return highest_tile
+    return max([val for row in board for val in row])
 
 
 ######################
