@@ -193,22 +193,25 @@ def _swipe_down(board, tile=0):
 def _reverse(board):
     """Reverse the board right and left"""
 
-    for row in board:
+    new_board = copy.deepcopy(board)
+
+    for row in new_board:
         row.reverse()
 
-    return board
+    return new_board
 
 
 def _row2col(board):
     """Reflect across the "y=x" diagonal"""
 
     size = len(board)
+    new_board = copy.deepcopy(board)
 
     for x in range(size):
         for y in range(x):
-            board[y][x], board[x][y] = board[x][y], board[y][x]
+            new_board[y][x], new_board[x][y] = new_board[x][y], new_board[y][x]
 
-    return board
+    return new_board
 
 
 ########################
