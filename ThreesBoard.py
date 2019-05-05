@@ -85,8 +85,7 @@ def _populate_board(board, deck, nTiles):
         # Place tiles randomly on the board
         while True:
             pos = int(ceil(size**2 * random())) - 1
-            x = pos // size
-            y = pos % size
+            x, y = divmod(pos, size)
 
             if board[x][y] == 0:
                 board[x][y] = tile
