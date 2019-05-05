@@ -245,7 +245,7 @@ class ThreesBoard(object):
             size=4,  # standard Threes board size, do more with it later
             nTiles=9,  # standard Threes number of starting tiles
             board=None,  # None or previous board
-            deck=TileDeck(),  # new tile deck, or previous deck
+            deck=None,  # None, or previous deck
             history=None,  # None, or previous history
             nextTile=0):  # no tile, or previous tile
 
@@ -267,7 +267,7 @@ class ThreesBoard(object):
 
             # Passing in the old game; size, ntiles are all ignored
             self.board = board
-            self.deck = deck
+            self.deck = deck # Need to check whether this is None
             self.history = history
             self.highestTile = _get_highest(self.board)
 
@@ -316,11 +316,7 @@ class ThreesBoard(object):
         except KeyError:
             raise InvalidMoveError
 
-        if self.board == copy_board:
-            # raise NoMovementError
-            pass
-
-        else:
+        if self.board != copy_board:
             self.board = copy_board
             self.highestTile = _get_highest(self.board)
             self.nextTile = self.deck.get_next_tile(self.highestTile)
