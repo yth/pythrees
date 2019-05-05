@@ -21,11 +21,10 @@ For testing AI strategy with Threes, you probably only need this.
 
 from __future__ import print_function
 import random
-
+import copy
 
 from math import ceil
 from TileDeck import TileDeck
-from copy import deepcopy
 
 
 ##############
@@ -134,7 +133,7 @@ def _swipe_left(board, tile=0):
     Add no tile by default
     """
 
-    copy_board = deepcopy(board)
+    copy_board = copy.deepcopy(board)
 
     for row in copy_board:
         row = _shift_left(row)
@@ -305,7 +304,7 @@ class ThreesBoard(object):
                      'up': _swipe_up,
                      'down': _swipe_down}
 
-        copy_board = deepcopy(self.board)
+        copy_board = copy.deepcopy(self.board)
 
         try:
             copy_board = direction[move](copy_board, self.nextTile)
@@ -324,7 +323,7 @@ class ThreesBoard(object):
             self.history.append((move, self.board, self.nextTile))
 
     def get_valid_moves(self):
-        new_board = deepcopy(self.board)
+        new_board = copy.deepcopy(self.board)
         moves = []
         if _swipe_left(new_board) != self.board:
             moves.append("left")
@@ -337,7 +336,7 @@ class ThreesBoard(object):
         return moves
 
     def gameOver(self):
-        new_board = deepcopy(self.board)
+        new_board = copy.deepcopy(self.board)
 
         return (_swipe_left(new_board) == self.board and
                 _swipe_right(new_board) == self.board and
