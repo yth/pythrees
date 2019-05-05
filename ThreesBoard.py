@@ -20,7 +20,9 @@ For testing AI strategy with Threes, you probably only need this.
 
 
 from __future__ import print_function
-from random import random, randint
+import random
+
+
 from math import ceil
 from TileDeck import TileDeck
 from copy import deepcopy
@@ -79,18 +81,15 @@ def _populate_board(board, deck, nTiles):
         # nTiles = size**2 #Silently resolve error
         raise TooManyTilesError
 
+    positions = [(x, y) for x in range(size) for y in range(size)]
+    random.shuffle(positions)
+
     for i in range(nTiles):
         tile = deck.get_next_tile()
 
         # Place tiles randomly on the board
-        while True:
-            pos = int(ceil(size**2 * random())) - 1
-            x, y = divmod(pos, size)
-
-            if board[x][y] == 0:
-                board[x][y] = tile
-                break
-
+        board[positions[i][0]][positions[i][1]] = tile
+    
     return board, deck
 
 
@@ -147,7 +146,7 @@ def _swipe_left(board, tile=0):
     else:
         # Add next tile on a row that changed
         while True:
-            pick = randint(0, len(board) - 1)
+            pick = random.randint(0, len(board) - 1)
 
             if board[pick] != copy_board[pick]:
                 copy_board[pick][-1] = tile
