@@ -338,10 +338,7 @@ class ThreesBoard(object):
     def gameOver(self):
         new_board = copy.deepcopy(self.board)
 
-        return (_swipe_left(new_board) == self.board and
-                _swipe_right(new_board) == self.board and
-                _swipe_up(new_board) == self.board and
-                _swipe_down(new_board) == self.board)
+        return True if len(self.get_valid_moves()) == 0 else False
 
     def __eq__(self, other):
 		# Consider add a check to history
