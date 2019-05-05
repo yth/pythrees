@@ -129,12 +129,11 @@ def _shift_left(row):
     return row_copy, 0 if row == row_copy else 1
 
 
-# I should specify that no tile means adding a tile = 0
 def _swipe_left(board, tile=0):
     """Perform what happens at board level when you swipe left
 
     Adds the next tile
-    Add no tile by default
+    Add no tile by default; tile=0, which is the empty tile
     """
 
     size = len(board)
