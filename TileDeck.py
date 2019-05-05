@@ -21,7 +21,9 @@ This is the tile deck used by Threes to the best of my knowledge.
 from __future__ import print_function
 
 from random import shuffle
-from copy import copy
+
+
+import copy
 
 
 ######################
@@ -88,8 +90,8 @@ def _create_deck(highest_tile=3):
         deck.append(bonus_deck.pop())
 
     # Prevent too many of the same tile in a row too often
-    sequence1 = copy(_BASE)
-    sequence2 = copy(_BASE)
+    sequence1 = copy.copy(_BASE)
+    sequence2 = copy.copy(_BASE)
 
     shuffle(sequence1)
     shuffle(sequence2)
@@ -97,7 +99,7 @@ def _create_deck(highest_tile=3):
     # original deck can be [] or contain a bonus tile
     deck += sequence1 + sequence2
 
-    return copy(deck)
+    return deck
 
 ##################
 # TileDeck Class #
