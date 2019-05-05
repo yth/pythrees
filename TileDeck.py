@@ -31,11 +31,11 @@ import copy
 ######################
 
 
-_BASE = [
+_BASE = (
     1, 1, 1, 1,
     2, 2, 2, 2,
     3, 3, 3, 3
-]
+)
 
 """
 The next tile given to you is not completely random. It's drawn without
@@ -90,8 +90,8 @@ def _create_deck(highest_tile=3):
         deck.append(bonus_deck.pop())
 
     # Prevent too many of the same tile in a row too often
-    sequence1 = copy.copy(_BASE)
-    sequence2 = copy.copy(_BASE)
+    sequence1 = copy.copy(list(_BASE))
+    sequence2 = copy.copy(list(_BASE))
 
     shuffle(sequence1)
     shuffle(sequence2)
