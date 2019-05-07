@@ -50,44 +50,38 @@ random tile.
 # Helper Functions #
 ####################
 
+def _create_bonus_deck(highest_tile=3):
+    """Bonus Deck for game of Threes!
+
+    The smallest bonus tile is 6. The maximum number of tiles in a bonus
+    deck is 3. The values of the bonus deck tiles are 1/8, 1/16 and 1/32
+	of the highest tile value on the board. If any of the bonus deck
+    tile values would be smaller than 6, no bonus tile is created for
+    that tile slot in the bonus deck.
+
+    e.g. highest_tile=3 => bonus_deck = []
+    e.g. highest_tile=12 => bonus_deck = []
+    e.g. highest_tile=48 => bonus_deck = [6]
+    e.g. highest_tile=96 => bonus_deck = [12, 6]
+    e.g. highest_tile=192 => bonus_deck = [24, 12, 6]
+    e.g. highest_tile=384 => bonus_deck = [48, 24, 12]
+    """
+
+    bonus_deck = []
+    while highest_tile >= 48 and len(bonus_deck) < 4:
+        bonus_deck.append(highest_tile/8)
+        highest_tile /= 2
+
+    return bonus_deck
 
 def _create_deck(highest_tile=3):
     """Tiles to come in a game of Threes.
-
-    After a certain tile value is achieved on the board, bonus tiles
-    start to be added after every 2 stacks. In this version, this
-    behavior will be hard coded in. I wonder if the actual game flips a
-    coin after every tile deck is used up.
-
-    The highest bonus tile is 1/8 of the current highest tile on the
-    board. The smallest bonus tile is 6. When the smallest bonus tile is
-    allowed to be created, bonus tiles comes into effect.
-
-    There are a maximum of possible bonus tiles. Their values are 1/8,
-    1/16, and 1/32 of the highest tile on the board. Only bonus tile
-    value greater than 6 shows up as a possible choice. One of these
-    tiles is added to the board like a regular tile after a swipe. It's
-    random which one is added.
-
-    We just add the tile to the head of our standard deck. The display
-    will handle showing all possible bonus tiles.
 
     The standard deck are two base decks that are shuffled and then
     combined
     """
 
     deck = []
-
-    # Create bonus title
-    bonus_deck = []
-
-    while highest_tile >= 48 and len(bonus_deck) < 4:
-        bonus_deck.append(highest_tile/8)
-        highest_tile /= 2
-
-    if bonus_deck:
-        shuffle(bonus_deck)
-        deck.append(bonus_deck.pop())
 
     # Prevent too many of the same tile in a row too often
     sequence1 = copy.copy(list(_BASE))
