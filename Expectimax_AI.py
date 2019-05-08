@@ -32,7 +32,7 @@ while not a.gameOver():
     next_move_trials = [1.0, 1.0, 1.0, 1.0]
     test_move = None
     possible_moves = None
-    for i in range(1000):
+    for i in range(100):
         b = ThreesBoard(board=a.board, deck=TileDeck(copy(a.deck.deck)), nextTile=a.nextTile, history=[])
 
         possible_moves = b.get_valid_moves()

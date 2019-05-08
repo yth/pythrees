@@ -20,9 +20,8 @@ This is the tile deck used by Threes to the best of my knowledge.
 # Future imports must occur at the beginning of a file
 from __future__ import print_function
 
-from random import shuffle
 
-
+import random
 import copy
 
 
@@ -68,7 +67,7 @@ def _create_bonus_deck(highest_tile=3):
     """
 
     bonus_deck = []
-    while highest_tile >= 48 and len(bonus_deck) < 4:
+    while highest_tile >= 48 and len(bonus_deck) < 3:
         bonus_deck.append(highest_tile/8)
         highest_tile /= 2
 
@@ -80,20 +79,31 @@ def _create_deck(highest_tile=3):
     The standard deck are two base decks that are shuffled and then
     combined
     """
-
     deck = []
+    bonus_deck = _create_bonus_deck(highest_tile)
+
+    if bonus_deck:
+        deck.append(bonus_deck)
 
     # Prevent too many of the same tile in a row too often
     sequence1 = copy.copy(list(_BASE))
     sequence2 = copy.copy(list(_BASE))
 
-    shuffle(sequence1)
-    shuffle(sequence2)
+    random.shuffle(sequence1)
+    random.shuffle(sequence2)
 
     # original deck can be [] or contain a bonus tile
     deck += sequence1 + sequence2
 
     return deck
+
+def _create_deck_2():
+    """Tiles in a Threes! tile deck
+
+    It represent all the tiles that can be drawn from a fresh deck.
+    """
+
+    return copy.copy(list(_BASE))
 
 ##################
 # TileDeck Class #

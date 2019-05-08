@@ -79,7 +79,7 @@ def _populate_board(board, deck, nTiles):
     # basic sanity check. You can't place more tiles on the board than
     # there are spaces
     if nTiles > size**2:
-        # nTiles = size**2 #Silently resolve error
+        # nTiles = size**2 ## If choose to silently resolve error
         raise TooManyTilesError
 
     positions = [(x, y) for x in range(size) for y in range(size)]
@@ -139,6 +139,7 @@ def _swipe_left(board, tile=0):
     size = len(board)
     new_board = []
     changes = []
+    bonus = isinstance(tile, list)
 
     for row in board:
         new_row, change = _shift_left(row)
@@ -158,7 +159,7 @@ def _swipe_left(board, tile=0):
                 continue
 
             else:
-                new_board[pick][-1] = tile
+                new_board[pick][-1] = tile if not bonus else random.choice(tile)
                 return new_board
 
 
@@ -349,7 +350,7 @@ class ThreesBoard(object):
 
 if __name__ == "__main__":
 
-	# Consider using a Python builtin testing framework
+        # Consider using a Python builtin testing framework
 
     # Testing on generating correct instances of games
 

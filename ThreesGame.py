@@ -261,17 +261,9 @@ def main(screen):
         else:
             color_pair = 3
 
-        if next_tile >= 6:
-            bonuses = []
-            high = game.highestTile
-            while high >= 48 and len(bonuses) < 4:
-                bonuses.append(high/8)
-                high /= 2
-            s = str(bonuses[0])
-            for tile in bonuses[1:]:
-                s+= "  "
-                s+= str(tile)
-            _tell_user(screen, s, color_pair)
+        if isinstance(next_tile, list):
+            tiles = [str(t) for t in next_tile]
+            _tell_user(screen, "    ".join(tiles), color_pair)
 
         else:
             _tell_user(screen, str(next_tile), color_pair)
