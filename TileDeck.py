@@ -68,7 +68,7 @@ def _create_bonus_deck(highest_tile=3):
 
     bonus_deck = []
     while highest_tile >= 48 and len(bonus_deck) < 3:
-        bonus_deck.append(highest_tile/8)
+        bonus_deck.append(highest_tile//8)
         highest_tile /= 2
 
     return bonus_deck
