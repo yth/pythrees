@@ -405,7 +405,7 @@ if __name__ == "__main__":
     print("\n  The next tile is :", a.nextTile, '\n')
     for row in a.board:
         for tile in row:
-			print(str(tile).center(6), end = ' ')
+            print(str(tile).center(6), end = ' ')
         print('')
 
     print("\n  This is the end board after using a random strategy.")
