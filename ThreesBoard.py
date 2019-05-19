@@ -18,7 +18,6 @@ For testing AI strategy with Threes, you probably only need this.
 # Imports #
 ###########
 
-
 from __future__ import print_function
 
 
@@ -226,7 +225,7 @@ def _get_highest(board):
     Since the board unordered, you have to go through every element.
     """
 
-    return max([val for row in board for val in row])
+    return max(val for row in board for val in row)
 
 
 ######################
