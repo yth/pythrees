@@ -22,7 +22,6 @@ from __future__ import print_function
 
 
 import random
-import copy
 
 
 ######################
@@ -103,7 +102,7 @@ def _create_deck_2():
     It represent all the tiles that can be drawn from a fresh deck.
     """
 
-    return copy.copy(list(_BASE))
+    return list(_BASE)
 
 ##################
 # TileDeck Class #
